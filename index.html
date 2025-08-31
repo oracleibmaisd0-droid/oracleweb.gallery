@@ -12,17 +12,17 @@
       --glass-alpha: .14;
       --blur: 16px;
       --ring: 255 255 255;
-      --glow: 99 102 241;
-      --edge-size: 30%;
-      --grad-x: 50%;
-      --grad-y: 50%;
-      --hue: 0;
-      --angle: 135deg;
     }
 
     * { box-sizing: border-box; }
     html, body { height: 100%; margin: 0; font: 500 16px/1.4 'Lato', sans-serif; color: rgb(var(--ink)); overflow-x: hidden; }
     body { display: flex; flex-direction: column; min-height: 100vh; background: radial-gradient(1200px 700px at 15% 10%, rgba(99,102,241,.22), transparent 60%), radial-gradient(900px 600px at 85% 0%, rgba(34,197,94,.20), transparent 60%), radial-gradient(1000px 700px at 50% 100%, rgba(56,189,248,.20), transparent 55%), linear-gradient(180deg, rgb(7 9 14), rgb(12 14 22)); background-attachment: fixed; padding-top: clamp(72px, 10vh, 120px); }
+
+    /* TRANSICIONES CABECERA Y FOOTER */
+    header { opacity: 0; transform: translateY(-40px); animation: slideDown 0.6s forwards ease-out; }
+    footer { opacity: 0; transform: translateY(40px); animation: slideUp 0.6s forwards ease-out; }
+    @keyframes slideDown { to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
     /* CABECERA TRANSLÚCIDA */
     .glass-header {
@@ -71,7 +71,11 @@
       border-radius: 16px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
       background: #000;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: popUp 0.5s forwards ease-out;
     }
+    @keyframes popUp { to { opacity: 1; transform: scale(1); } }
 
     /* FOOTER GLASS */
     footer {
@@ -95,16 +99,16 @@
   </header>
 
   <!-- GALERÍA DE IFRAMES -->
-    <script>
+  <script>
         alert("Para optimizar el rendimiento de la página, la galería está establecida en modo vídeo por defecto.\n\nPara interactuar con las escenas 3D, pulse sobre la estrella.\n\nPara mantener el rendimiento de la página se recomienda volver al modo vídeo en cada interacción finalizada.");
     </script>
         <script>
         alert("Asegúrese de que la conexión sea rápida.");
     </script>
-    
+  
   <main>
     <div class="iframe-grid">
-<iframe src="https://lumalabs.ai/embed/23aeeecd-90c7-446b-8e9b-717ac2af80ed?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=true"></iframe>
+      <iframe src="https://lumalabs.ai/embed/23aeeecd-90c7-446b-8e9b-717ac2af80ed?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=true"></iframe>
 <iframe src="https://lumalabs.ai/embed/48345a3e-97d0-40da-aaaf-a506a03667a2?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=true"></iframe>
 <iframe src="https://lumalabs.ai/embed/d1c0c010-8e25-4b12-8348-f67c2a42642a?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=true"></iframe>
 <iframe src="https://lumalabs.ai/embed/86752950-d1b0-4153-9223-37b165295a94?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=true"></iframe>
@@ -148,8 +152,13 @@
     &copy; 2025 Oracle Quantum. Powered by Oracle. – Todos los derechos reservados.
   </footer>
 
-  <!-- SCRIPT EFECTO BRILLO -->
+  <!-- SCRIPT EFECTO BRILLO Y POP -->
   <script>
+    // Animación pop escalonada para iframes
+    const iframes = document.querySelectorAll('.iframe-grid iframe');
+    iframes.forEach((iframe, i) => { iframe.style.animationDelay = `${i * 0.1}s`; });
+
+    // Funciones de halo reactivo en header y footer
     function throttle(fn, wait){
       let last = 0, rafId = null, pendingArgs = null;
       return function(...args){
@@ -162,10 +171,7 @@
         } else if (!rafId) {
           rafId = requestAnimationFrame(() => {
             rafId = null; last = performance.now();
-            if (pendingArgs) {
-              fn.apply(this, pendingArgs);
-              pendingArgs = null;
-            }
+            if (pendingArgs) { fn.apply(this, pendingArgs); pendingArgs = null; }
           });
         }
       };
@@ -191,28 +197,16 @@
         const clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
         updateLight(el, clientX, clientY);
       }
-
       const throttledMove = throttle(onMove, 16);
-
       el.addEventListener('pointerenter', throttledMove);
       el.addEventListener('pointermove', throttledMove);
       el.addEventListener('pointerleave', () => el.classList.remove('is-hot', 'edge-left', 'edge-right'));
-
       el.addEventListener('touchstart', throttledMove, { passive: true });
       el.addEventListener('touchmove', throttledMove, { passive: true });
       el.addEventListener('touchend', () => el.classList.remove('is-hot', 'edge-left', 'edge-right'));
     }
-
     bindReactiveLight(header);
     bindReactiveLight(footer);
-
-    window.addEventListener('resize', throttle(() => {
-      [header, footer].forEach(el => {
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty('--mx', rect.width / 2 + 'px');
-        el.style.setProperty('--my', rect.height / 2 + 'px');
-      });
-    }, 60));
   </script>
 </body>
 </html>
