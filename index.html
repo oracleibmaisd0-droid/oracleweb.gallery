@@ -1,6 +1,8 @@
 <html lang="es">
+      
+      </script>
   
-    <!-- ========TIEMPO======== -->
+  <!-- ========TIEMPO======== -->
   <!-- ==========================
   MENSAJE ACTUALIZACIÓN
   =========================== -->
@@ -10,9 +12,9 @@
   const update = new Date();
 
   if (update < fechaLimiteUpdate) {
-    alert("PÁGINA WEB OPTIMIZADA\n\nSe corrigieron algunos bugs");
+    alert("PÁGINA WEB OPTIMIZADA\n\nBugs corregidos.");
   }
-  </script>
+</script>
 
 <head>
   <meta charset="UTF-8" />
@@ -119,7 +121,7 @@
   
   <main>
     <div class="iframe-grid">
-      <iframe src="https://lumalabs.ai/embed/23aeeecd-90c7-446b-8e9b-717ac2af80ed?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+            <iframe src="https://lumalabs.ai/embed/23aeeecd-90c7-446b-8e9b-717ac2af80ed?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
 <iframe src="https://lumalabs.ai/embed/48345a3e-97d0-40da-aaaf-a506a03667a2?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
 <iframe src="https://lumalabs.ai/embed/d1c0c010-8e25-4b12-8348-f67c2a42642a?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
 <iframe src="https://lumalabs.ai/embed/86752950-d1b0-4153-9223-37b165295a94?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
@@ -209,14 +211,22 @@
         updateLight(el, clientX, clientY);
       }
       const throttledMove = throttle(onMove, 16);
-      el.addEventListener('pointerenter', throttledMove);
+
+      /* ----------------------------
+         CORRECCIÓN: aquí los cambios
+         ---------------------------- */
+      el.addEventListener('pointerenter', () => el.classList.add('is-hot'));
       el.addEventListener('pointermove', throttledMove);
+
+      /* resto sin tocar */
       el.addEventListener('pointerleave', () => el.classList.remove('is-hot', 'edge-left', 'edge-right'));
       el.addEventListener('touchstart', throttledMove, { passive: true });
       el.addEventListener('touchmove', throttledMove, { passive: true });
       el.addEventListener('touchend', () => el.classList.remove('is-hot', 'edge-left', 'edge-right'));
     }
+
     bindReactiveLight(header);
     bindReactiveLight(footer);
+</script>
 </body>
 </html>
