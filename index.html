@@ -1,464 +1,423 @@
-<!DOCTYPE html>
 <html lang="es">
+
+<script>
+  const fechaLimiteUpdate = new Date(2025, 11);
+  const update = new Date();
+
+  if (update < fechaLimiteUpdate) {
+    alert("PÁGINA WEB OPTIMIZADA\n\nBugs corregidos.");
+  }
+</script>
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Alertas</title>
-<link rel="icon" href="https://img.icons8.com/fluency/10000/settings.png">
-<link href="https://fonts.cdnfonts.com/css/product-sans" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Galería 3D</title>
+  <link rel="icon" href="https://img.icons8.com/fluency/10000/3d-select.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.cdnfonts.com/css/product-sans" rel="stylesheet" />
 
-<style>
-  body {
-    font-family: 'Product Sans', sans-serif;
-    background: #000000;
-    padding: 20px;
-  }
-
-  /* LED Status */
-  #status-box {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 15px;
-    height: 5px;
-    border-radius: 1px;
-    background: var(--status-color);
-    box-shadow: 0 0 6px currentColor;
-    z-index: 9999;
-    font-size: 12px;
-  }
-
-  .alerta {
-    display: none;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .icono {
-    width: 60px;   /* espacio para onda */
-    height: 60px;
-    flex-shrink: 0;
-    position: relative; /* para que onda absoluta se centre */
-  }
-
-  span {
-    text-align: justify;
-  }
-
-  /* Onda */
-  .wave {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform-origin: 50% 50%;
-    animation: wave 1.5s ease-out infinite;
-    z-index: 0;
-  }
-
-  @keyframes wave {
-    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    100% { transform: translate(-42%, -49%) scale(2); opacity: 0; }
-  }
-
-  /* Contenedores ocultos */
-  #svg-container, #backgrounds-container { display: none; }
-
-</style>
-</head>
-<body>
-<!-- Contenedor scrollable -->
-<div style="overflow-x: auto; white-space: nowrap; padding:10px;">
-  <!-- COLOR RENDIMIENTO -->
-  <div style="display: inline-block; margin-right: 10px;">
-    <div style="width:15px; height:5px; background:#00f; display:inline-block; vertical-align:middle;"></div>
-    <span style="color:white; font-size:12px; vertical-align:middle; margin-left:5px;">Rendimiento</span>
-  </div>
-
-  <!-- COLOR WDriver control -->
-  <div style="display: inline-block; margin-right: 10px;">
-    <div style="width:15px; height:5px; background:#0f0; display:inline-block; vertical-align:middle;"></div>
-    <span style="color:white; font-size:12px; vertical-align:middle; margin-left:5px;">WDriver control</span>
-  </div>
-</div>
-
-<div align="center">
-  <font color="#ffffff"><h3>Alertas activas</h3></font>
-  <h6>
-    <a href="https://www.google.com/intl/es_es/chrome/">
-      <font color="#ff0000">
-        Es posible que este sitio web no sea compatible con navegadores antiguos o visualización básica, por lo que pueden activarse todas las alertas de la base de datos.
-      </font>
-    </a>
-  </h6>
-    <h6>
-    <a href="https://about-alertsystemstatus.netlify.app">
-      <font color="#0000ff">
-        ¿Qué significa este símbolo de alerta?
-      </font>
-    </a>
-  </h6>
-</div>
-
-  <!-- ALERTAS -->
-  
-    <div id="ecoplusw" class="alerta" data-icon="forbidden">
-    <div class="icono"></div>
-    <span>ECO+<br><br>Sistema de rendimiento deshabilitado.<br><br>WorkTasker no está afiliado a ningún ecosistema de Smart Business. Asocia WorkTasker a una Smart Business compatible para obtener beneficios.</span>
-  </div>
-    <div id="temperaturax" class="alerta" data-icon="forbidden">
-    <div class="icono"></div>
-    <span>Fuera de servicio por temperatura extrema. El sistema se reanudará cuando la temperatura sea aceptable.</span>
-  </div>
-    <div id="wparcialstop" class="alerta" data-icon="forbidden">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Fuera de servicio.<br><br>(Without resources)</span>
-  </div>
-    <div id="wincidence" class="alerta" data-icon="forbidden">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Zona restringida añadida.</span>
-  </div>
-    <div id="wuserbloq" class="alerta" data-icon="forbidden">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Usuario baneado.</span>
-  </div>
-  <div id="breackout" class="alerta" data-icon="danger">
-      <div class="icono"></div>
-    <span>ECO+<br><br>Error general del servicio de energía.<br><br>Las funciones de alto rendimiento quedan deshabilitadas hasta que las condiciones generales mejoren.<br><br>Es posible la disponibilidad exclusiva de funciones básicas hasta su consumo según la duración del evento.<br><br>(Boost Disabled) (Potenciador Deshabilitado)</span>
-  </div>
-  <div id="wdont" class="alerta" data-icon="danger">
-    <div class="icono"></div>
-    <span>WDriver robado.<br></br>Matrícula: [9058LLV]<br></br>Extreme las precauciones.<br></br>Aplicando resoluciones legales…</span>
-  </div>
-     <div id="wincidencevigil" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Error al restringir zona.<br><br>Zona selectiva bajo supervisión.</span>
-  </div>
-  <div id="offline" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>OFFLINE<br><br>Sin acceso a la red.</span>
-  </div>
-  <div id="resource0" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>WITHOUT RESOURCES</span>
-  </div>
-  <div id="wdisable" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>WDriver no disponible.</span>
-  </div>
-  <div id="wclimax" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>WDriver no disponible en estos momentos por mal tiempo.<br><br>WDriver estará disponible cuando las condiciones climáticas mejoren.</span>
-  </div>
-  <div id="wclimal" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Limitación durante trayectoria por temporal desfavorable.</span>
-  </div>
-  <div id="sismo" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>ALERTA DE SISMO DETECTADO<br><br>Se ha registrado actividad sísmica en la zona del servidor.<br><br>Se recomienda extremar precauciones: mantener la calma, seguir protocolos de seguridad establecidos y priorizar la integridad física en todo momento.</span>
-  </div>
-  <div id="ecoplus" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>ECO+<br><br>Sistema limitado únicamente a funciones básicas.</span>
-  </div>
-  <div id="ecoSplus" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>ECO+<br><br>Payment timeout.</span>
-  </div>
-  <div id="wclima" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>WDriver ha limitado los viajes en algunas zonas por mal tiempo hasta que las condiciones climáticas mejoren.</span>
-  </div>
-  <div id="wset" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Mantenimiento.</span>
-  </div>
-  <div id="wstop" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>No disponible temporalmente. Reserva auxiliar.<br><br>(Insufficient resources)</span>
-  </div>
-  <div id="whack" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Inhibición detectada.<br></br>Aplicando resoluciones legales…</span>
-  </div>
-  <div id="eco" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>ECO<br><br>Funciones de alto rendimiento deshabilitadas.</span>
-  </div>
-  <div id="ecoS" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>ECO<br><br>Transaction timeout.</span>
-  </div>
-  <div id="mr" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>ADVERTENCIA GENERAL:<br><br>Posibles incidencias técnicas.</span>
-  </div>
-  <div id="temperatura" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>Modo de disipación de calor activo.<br><br>Algunas funciones pueden estar limitadas o no disponibles para evitar el sobrecalentamiento.<br><br>(Boost Disabled)</span>
-  </div>
-  <div id="temperaturaforce" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>ADVERTENCIA<br><br>Riesgo de sobrecalentamiento.</span>
-  </div>
-  <div id="temperatura0" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>Temperatura bajo cero.<br><br>Algunas tareas podrían no ejecutarse por motivos de seguridad.</span>
-  </div>
-  <div id="weco" class="alerta" data-icon="caution">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Modo ECO<br><br>(Insufficient resources)</span>
-  </div>
-  <div id="wUpdating" class="alerta" data-icon="load">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Actualizando software…</span>
-  </div>
-  <div id="wreserve" class="alerta" data-icon="info">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Zona excepcional reservada obligatoria.</span>
-  </div>
-  <div id="wreserveuser" class="alerta" data-icon="info">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Zona de aparcamiento reservada mediante petición de Usuario.<br><br>Alternativas restantes seleccionadas.</span>
-  </div>
- <div id="online" class="alerta" data-icon="ok">
-    <div class="icono"></div>
-    <span>ONLINE<br><br>Conectado a la red.</span>
-  </div>
-  <div id="wUpdated" class="alerta" data-icon="ok">
-    <div class="icono"></div>
-    <span>WDriver:<br><br>Software actualizado.</span>
-  </div>
-  <!-- CUALQUIER MENSAJE -->
- <div id="ANY" class="alerta" data-icon="info">
-    <div class="icono"></div>
-    <span>Se ha establecido Máximo Rendimiento para elementos puntuales con fines de entrenamiento y pruebas durante tiempo indefinido. Esta capacidad no está disponible en áreas generales con el recurso actual.</span>
-  </div>
-  
-   <div id="ANY2" class="alerta" data-icon="critical">
-    <div class="icono"></div>
-    <span>Riesgo general de averías graves.</span>
-  </div>
-  
-   <div id="ANY3" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>Riesgo de sobrecarga energética ambiental.<br><br>Tome precauciones, proceda de forma tranquila y ordenada en todo momento durante esta etapa. Evite el transporte a menos que sea necesario.</span>
-  </div>
-  
-   <div id="ANY4" class="alerta" data-icon="warning">
-    <div class="icono"></div>
-    <span>Riesgo de exposición a energías de 90° muy alto.<br><h6><font color="green">Energía no colectiva.</font></h6></span>
-  </div>
-  
-   <div id="ANY5" class="alerta" data-icon="ok">
-    <div class="icono"></div>
-    <span>WorkTasker asociado a Smart Business 1.</span>
-  </div>
-  
-  <!-- OKEY -->
- <div id="OKEY" class="alerta" data-icon="ok">
-    <div class="icono"></div>
-    <span>NO HAY ALERTAS ACTIVAS</span>
-  </div>
-
-  <!-- Contenedor oculto de SVGs -->
-  <div id="svg-container">
-    <svg data-keyword="ok" width="40" height="40" viewBox="5 -10 140 140">
-      <circle cx="60" cy="60" r="50" fill="#00ff00"/>
-    </svg>
-
-    <svg data-keyword="caution" width="40" height="40" viewBox="7 0 125 125">
-      <path d="M60 15 L105 100 L15 100 Z" fill="#ffff00" stroke="#ffff00" stroke-linejoin="round" stroke-width="10"/>
-    </svg>
-
-    <svg data-keyword="warning" width="40" height="40" viewBox="0 -10 145 145">
-      <path d="M60 15 L105 60 L60 105 L15 60 Z" fill="#ff7f00" stroke="#ff7f00" stroke-linejoin="round" stroke-width="20"/>
-    </svg>
-
-    <svg data-keyword="critical" width="40" height="40" viewBox="15 5 110 110">
-      <rect x="20" y="20" width="80" height="80" fill="#ff0000" rx="10" ry="10"/>
-    </svg>
-
-    <svg data-keyword="question" width="40" height="40" viewBox="10 0 120 120">
-      <path d="M20 25 L100 25 L60 100 Z" fill="#0000ff" stroke="#0000ff" stroke-linejoin="round" stroke-linecap="round" stroke-width="10"/>
-    </svg>
-    
-    <svg data-keyword="info" width="40" height="40" viewBox="7 0 40 80">
-      <line x1="20" y1="20" x2="20" y2="60" stroke="#0000ff" stroke-width="12" stroke-linecap="round"/>
-    </svg>
-    
-    <svg data-keyword="load" width="40" height="40" viewBox="10 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aro azul">
-  <circle cx="60" cy="60" r="40" fill="none" stroke="#0000ff" stroke-width="15"/>
-</svg>
-
-<svg data-keyword="stop" xmlns="http://www.w3.org/2000/svg" viewBox="0 -7 120 120" width="64" height="64" role="img" aria-label="Stop sign shape">
-  <title>Stop</title>
-  <path
-    d="
-      M35 5
-      H65
-      Q70 5 74 9
-      L91 26
-      Q95 30 95 35
-      V65
-      Q95 70 91 74
-      L74 91
-      Q70 95 65 95
-      H35
-      Q30 95 26 91
-      L9 74
-      Q5 70 5 65
-      V35
-      Q5 30 9 26
-      L26 9
-      Q30 5 35 5
-      Z
-    "
-    fill="#ff0000"
-  />
-</svg>
-
-    <svg data-keyword="danger" width="40" height="40" viewBox="45 35 130 130">
-      <circle cx="100" cy="100" r="10" fill="#FF0000"/>
-      <g fill="none" stroke="#FF0000" stroke-linecap="round" stroke-width="8">
-        <path d="M115 80 A25 25 0 0 1 115 120"/>
-        <path d="M130 70 A40 40 0 0 1 130 130"/>
-      </g>
-      <g fill="none" stroke="#FF0000" stroke-linecap="round" stroke-width="8">
-        <path d="M85 80 A25 25 0 0 0 85 120"/>
-        <path d="M70 70 A40 40 0 0 0 70 130"/>
-      </g>
-    </svg>
-
-    <svg data-keyword="forbidden" width="40" height="40" viewBox="0 0 120 40">
-      <line x1="20" y1="20" x2="80" y2="20" stroke="#7F7F7F" stroke-width="15" stroke-linecap="round"/>
-    </svg>
-  </div>
-
-  <!-- Contenedor oculto de Backgrounds -->
-  <div id="backgrounds-container">
-    <div data-keyword="ok" style="background:#00ff0050;"></div>
-    <div data-keyword="caution" style="background:#ffff0050;"></div>
-    <div data-keyword="warning" style="background:#ff7f0050;"></div>
-    <div data-keyword="critical" style="background:#ff000050;"></div>
-    <div data-keyword="question" style="background:#0000ff50;"></div>
-    <div data-keyword="info" style="background:#0000ff50;"></div>
-    <div data-keyword="load" style="background:#0000ff50;"></div> 
-    <div data-keyword="stop" style="background:#ff000050;"></div> 
-    <div data-keyword="danger" style="background:#ff000050;"></div>
-    <div data-keyword="forbidden" style="background:#7f7f7f50;"></div>
-  </div>
-
-  <!-- PROGRAMADOR -->
-  
-  <script>
-    const alertas = [
-      { id: "breackout", fechaHoraInicio: new Date('2025-11-26T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "sismo", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "eco", fechaHoraInicio: new Date('2026-02-01T00:00:00'), fechaHoraFin: new Date('2026-02-09T01:00:00') },
-      { id: "ecoS", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "ecoplus", fechaHoraInicio: new Date('2026-01-31T00:00:00'), fechaHoraFin: new Date('2026-01-01T00:00:00') },
-      { id: "ecoSplus", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "resource0", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "ecoplusw", fechaHoraInicio: new Date('2026-01-17T00:00:00'), fechaHoraFin: new Date('2026-01-31T00:00:00') },
-      { id: "mr", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-11-30T00:00:00') },
-      { id: "online", fechaHoraInicio: new Date('2026-03-17T05:00:00'), fechaHoraFin: new Date('2026-03-18T05:00:00') },
-      { id: "offline", fechaHoraInicio: new Date('2026-03-16T05:00:00'), fechaHoraFin: new Date('2026-03-17T05:00:00') },
-      { id: "temperatura", fechaHoraInicio: new Date('2026-07-01T00:00:00'), fechaHoraFin: new Date('2026-08-01T00:00:00') },
-      { id: "temperaturax", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "temperaturaforce", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "temperatura0", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2026-01-08T00:00:00') },
-      { id: "wdisable", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "weco", fechaHoraInicio: new Date('2026-03-04T23:00:00'), fechaHoraFin: new Date('2026-03-05T00:00:00') },
-      { id: "wstop", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "wparcialstop", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "wclimal", fechaHoraInicio: new Date('2026-03-08T21:00:00'), fechaHoraFin: new Date('2026-03-09T00:00:00') },
-      { id: "wclima", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "wclimax", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "wreserve", fechaHoraInicio: new Date('2026-03-15T21:00:00'), fechaHoraFin: new Date('2026-03-16T21:00:00') },
-      { id: "wreserveuser", fechaHoraInicio: new Date('2026-03-17T16:00:00'), fechaHoraFin: new Date('2026-03-18T16:00:00') },
-      { id: "wincidence", fechaHoraInicio: new Date('2026-04-15T16:00:00'), fechaHoraFin: new Date('2026-04-17T16:00:00') },
-      { id: "wincidencevigil", fechaHoraInicio: new Date('2026-04-28T18:00:00'), fechaHoraFin: new Date('2026-04-29T18:00:00') },
-      { id: "wuserbloq", fechaHoraInicio: new Date('2026-03-17T16:00:00'), fechaHoraFin: new Date('2026-03-18T16:00:00') },
-      { id: "wset", fechaHoraInicio: new Date('2026-04-11T23:00:00'), fechaHoraFin: new Date('2027-01-01T00:00:00') },
-      { id: "whack", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "wdont", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') },
-      { id: "wUpdating", fechaHoraInicio: new Date('2026-02-15T00:00:00'), fechaHoraFin: new Date('2026-02-15T01:00:00') },
-      { id: "wUpdated", fechaHoraInicio: new Date('2026-02-15T01:00:00'), fechaHoraFin: new Date('2026-02-16T01:00:00') },
-      //CUALQUIER MENSAJE
-      { id: "ANY", fechaHoraInicio: new Date('2026-03-26T00:00:00'), fechaHoraFin: new Date('2026-04-26T00:00:00') },
-      { id: "ANY2", fechaHoraInicio: new Date('2026-04-14T00:00:00'), fechaHoraFin: new Date('2026-05-14T00:00:00') },
-      { id: "ANY3", fechaHoraInicio: new Date('2026-04-26T00:00:00'), fechaHoraFin: new Date('2033-01-01T00:00:00') },
-      { id: "ANY4", fechaHoraInicio: new Date('2026-02-16T00:00:00'), fechaHoraFin: new Date('2026-02-23T00:00:00') },
-      //OK
-      { id: "ANY5", fechaHoraInicio: new Date('2026-01-31T00:00:00'), fechaHoraFin: new Date('2026-02-01T00:00:00') },
-      { id: "OKEY", fechaHoraInicio: new Date('2025-01-01T00:00:00'), fechaHoraFin: new Date('2025-01-01T00:00:00') }
-    ];
-
-function actualizarAlertas() {
-  const ahora = new Date();
-  alertas.forEach(alerta => {
-    const elemento = document.getElementById(alerta.id);
-    if (ahora >= alerta.fechaHoraInicio && ahora < alerta.fechaHoraFin) {
-      elemento.style.display = "flex";
-      const iconoDiv = elemento.querySelector('.icono');
-      const keyword = elemento.dataset.icon;
-
-      iconoDiv.innerHTML = '';
-
-      const svgOriginal = document.querySelector(`#svg-container svg[data-keyword='${keyword}']`);
-      if (svgOriginal) {
-        const wrapper = document.createElement('div');
-        wrapper.style.position = 'relative';
-        wrapper.style.width = '60px';
-        wrapper.style.height = '60px';
-
-        // SVG principal
-        const svgClone = svgOriginal.cloneNode(true);
-        svgClone.removeAttribute('id');
-        svgClone.setAttribute('width', '40');
-        svgClone.setAttribute('height', '40');
-        svgClone.style.position = 'absolute';
-        svgClone.style.top = '50%';
-        svgClone.style.left = '50%';
-        svgClone.style.transform = 'translate(-50%, -50%)';
-        svgClone.style.zIndex = '2';
-        wrapper.appendChild(svgClone);
-
-        // Onda (solo primeras 24h)
-        const primerDiaFin = new Date(alerta.fechaHoraInicio.getTime() + 24*60*60*1000);
-        if (ahora < primerDiaFin) {
-          const wave = svgOriginal.cloneNode(true);
-          wave.removeAttribute('id');
-          wave.setAttribute('width', '40');
-          wave.setAttribute('height', '40');
-          wave.classList.add('wave');
-          wrapper.appendChild(wave);
-        }
-
-        iconoDiv.appendChild(wrapper);
-      }
-
-      // Background
-      const bgOriginal = document.querySelector(`#backgrounds-container [data-keyword='${keyword}']`);
-      if (bgOriginal) {
-        elemento.style.background = bgOriginal.style.background;
-      }
-
-    } else {
-      elemento.style.display = "none";
+  <style>
+    :root {
+      --bg: 15 18 25;
+      --ink: 235 238 245;
+      --glass-alpha: .14;
+      --blur: 16px;
+      --ring: 255 255 255;
     }
-  });
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      font: 500 16px/1.4 'Product Sans', sans-serif;
+      color: rgb(var(--ink));
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: radial-gradient(1200px 700px at 15% 10%, rgba(99,102,241,.22), transparent 60%),
+                  radial-gradient(900px 600px at 85% 0%, rgba(34,197,94,.20), transparent 60%),
+                  radial-gradient(1000px 700px at 50% 100%, rgba(56,189,248,.20), transparent 55%),
+                  linear-gradient(180deg, rgb(7 9 14), rgb(12 14 22));
+      background-attachment: fixed;
+      padding-top: clamp(72px, 10vh, 120px);
+    }
+    
+  /* ===============================
+   FONDO DIFUSO MULTICOLOR (CENTRADO)
+   =============================== */
+
+#luma-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -999;
+  pointer-events: none;
+  overflow: hidden;
+  background: #000;
 }
 
-// Actualizar al cargar y cada minuto
-actualizarAlertas();
-setInterval(actualizarAlertas, 60000);
-</script>
+.luma-blob {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  max-width: 800px;
+  max-height: 800px;
+  border-radius: 50%;
+  opacity: 0.75;
+  mix-blend-mode: screen;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(100px);
+
+  /* Animación combinada: movimiento + rotación */
+  animation: blobAnimation 40s ease-in-out infinite alternate,
+             colorChange 20s ease-in-out infinite alternate;
+}
+
+/* Diferentes duraciones para cada blob */
+.luma-blob.b1 { background: #7f0000; animation-duration: 38s, 18s; }
+.luma-blob.b2 { background: #007f00; animation-duration: 42s, 22s; }
+.luma-blob.b3 { background: #00007f; animation-duration: 36s, 20s; }
+
+/* Animación combinada: movimiento + giro */
+@keyframes blobAnimation {
+  0%   { transform: translate(-50%, -50%) translateX(-15%) translateY(-10%) scale(0.5) rotate(0deg); }
+  25%  { transform: translate(-50%, -50%) translateX(10%) translateY(15%) scale(0.8) rotate(90deg); }
+  50%  { transform: translate(-50%, -50%) translateX(5%) translateY(-10%) scale(0.3) rotate(180deg); }
+  75%  { transform: translate(-50%, -50%) translateX(-10%) translateY(10%) scale(0.4) rotate(270deg); }
+  100% { transform: translate(-50%, -50%) translateX(-15%) translateY(-5%) scale(0.6) rotate(360deg); }
+}
+
+/* Cambio suave de color */
+@keyframes colorChange {
+  0%   { filter: blur(100px) hue-rotate(0deg); }
+  50%  { filter: blur(100px) hue-rotate(180deg); }
+  100% { filter: blur(100px) hue-rotate(360deg); }
+}
+
+    /* TRANSICIONES CABECERA Y FOOTER */
+    header {
+      opacity: 0;
+      transform: translateY(-40px);
+      animation: slideDown 0.6s forwards ease-out;
+    }
+
+    footer {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUp 0.6s forwards ease-out;
+    }
+
+    @keyframes slideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* CABECERA TRANSLÚCIDA */
+    .glass-header {
+      --mx: 50%;
+      --my: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: clamp(72px, 15vh, 120px); /* Altura responsive */
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 8px clamp(16px, 5vw, 48px);
+      z-index: 50;
+      background: color-mix(in oklab, rgba(var(--bg)/var(--glass-alpha)), transparent);
+      backdrop-filter: saturate(160%) blur(var(--blur));
+      -webkit-backdrop-filter: saturate(160%) blur(var(--blur));
+      border-bottom: 1px solid color-mix(in oklab, rgba(var(--ink)/.08), transparent);
+      box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 10px 30px rgba(0,0,0,.06);
+      overflow: clip;
+      isolation: isolate;
+    }
+
+    .glass-header::before,
+    footer::before {
+      content: "";
+      position: absolute;
+      inset: -40% -10%;
+      pointer-events: none;
+      background: radial-gradient(200px 200px at var(--mx) var(--my), rgba(var(--ring)/.55), transparent 60%);
+      filter: blur(18px) saturate(130%);
+      opacity: 0;
+      transition: opacity .25s ease;
+      mix-blend-mode: screen;
+    }
+
+    .glass-header.is-hot::before,
+    footer.is-hot::before {
+      opacity: 1;
+    }
+
+    .brand {
+      font-weight: 700;
+      opacity: .9;
+    }
+
+    .title {
+      grid-column: 1 / -1;
+      margin-top: -20px;
+      text-align: center;
+      margin-top: -20px;
+      font-weight: 800;
+      line-height: 0;
+      letter-spacing: -0.02em;
+      font-size: clamp(28px, 6.4vw, 64px);
+      text-shadow: 0 1px 8px rgba(255,255,255,.06);
+      align-self: start; /* título más arriba */
+    }
+
+    @media (min-width: 860px) {
+      .title {
+        grid-column: 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: clamp(24px, 8vw, 48px);
+      }
+      .header-buttons {
+        gap: 8px;
+      }
+      .header-buttons button {
+        padding: 6px 12px;
+        font-size: 14px;
+      }
+    }
+
+    /* BOTONES CABECERA */
+    .header-buttons button {
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      font-family: 'Product Sans', sans-serif;
+      transition: transform 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .header-buttons button:hover {
+      transform: scale(1.05);
+    }
+
+    /* GALERÍA DE IFRAMES */
+    main {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    .iframe-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .iframe-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .iframe-grid iframe {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      background: #000;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: popUp 0.5s forwards ease-out;
+    }
+
+    @keyframes popUp {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* FOOTER GLASS */
+    footer {
+      position: relative;
+      text-align: center;
+      padding: 24px 16px;
+      color: rgba(235,238,245,0.6);
+      font-size: 14px;
+      background: color-mix(in oklab, rgba(var(--bg)/var(--glass-alpha)), transparent);
+      backdrop-filter: saturate(160%) blur(var(--blur));
+      -webkit-backdrop-filter: saturate(160%) blur(var(--blur));
+      border-top: 1px solid color-mix(in oklab, rgba(var(--ink)/.08), transparent);
+      box-shadow: 0 -1px 0 rgba(255,255,255,.06) inset, 0 -10px 30px rgba(0,0,0,.06);
+      isolation: isolate;
+      overflow: clip;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- FONDO DIFUSO MULTICOLOR UNIVERSAL -->
+<div id="luma-bg">
+  <div class="luma-blob b1"></div>
+  <div class="luma-blob b2"></div>
+  <div class="luma-blob b3"></div>
+</div>
+    
+  <!-- CABECERA -->
+  <header class="glass-header" id="cabecera">
+    <div class="brand">Oracle System</div>
+
+    <!-- BOTONES DE REDIRECCIÓN -->
+    <div class="header-buttons" style="display: flex; gap: 12px; grid-column: 3; justify-self: end;">
+      <button style="background-color:#0000007a; color:#fff;" onclick="window.location.href='https://oraclewebgallery-360.netlify.app'">Galería 360°</button>
+      <button style="background-color:#0000007a; color:#fff;" onclick="window.location.href='https://maps.apple.com/look-around?address=Carrer+de+Mallorca%2C+337%2C+08037+Barcelona%2C+Espa%C3%B1a&coordinate=41.399822%2C2.1702689&name=Carrer+de+Mallorca%2C+337&_mvs=CiQJY0FZxiizREAR8%2FfWlLVcAUAZAAD4EwOsVEAh6Pj8JsZOc0A%3D'">Look Around</button>
+    </div>
+
+    <div class="spacer"></div>
+    <nav class="nav"></nav>
+    <div class="title">GALERÍA 3D</div>
+  </header>
+
+  <!-- GALERÍA DE IFRAMES -->
+  <script>
+        alert("Para navegar por las escenas 3D pulse sobre la ESTRELLA.\n\n\n\nPara mantener el RENDIMIENTO ÓPTIMO de la web pulse sobre el TRIÁNGULO (Play) ya que un mayor número de renderizado puede colapsar la página.");
+    </script>
+  
+  <main>
+    <div class="iframe-grid">
+<iframe loading="lazy" src="https://lumalabs.ai/embed/9f6e1131-627b-414d-98c3-18e803482283?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+        
+<iframe loading="lazy" src="https://lumalabs.ai/embed/23aeeecd-90c7-446b-8e9b-717ac2af80ed?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/48345a3e-97d0-40da-aaaf-a506a03667a2?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/d1c0c010-8e25-4b12-8348-f67c2a42642a?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/86752950-d1b0-4153-9223-37b165295a94?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/c72ee2db-f364-402d-a106-bac822625d5b?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/492d44d1-1885-4aca-ae14-482e9d7306d9?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/ad705e8b-46c6-4088-9dbe-e6bbdb10aedf?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/e0c03e1c-c3b8-427e-aae2-d234dcacc3e0?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/fbf93bec-17c3-4957-8a13-0e2893a99e7e?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/0778fcf5-9805-4eee-927b-77f7cd26ad7b?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/b0748ec0-44d2-4b98-b3e9-4038634c2313?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/a898d0c5-b66f-4ec6-b9d2-994b2b27bdc8?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/a1fa30be-30dc-4ea6-b701-c6f1088e29ee?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/000a1801-e03d-4977-bf78-d4db5f853237?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/15dfa22d-f031-412f-ad29-02d5951b44cf?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/64eea35c-78a6-4d33-98d5-eb33255424a9?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/cb3e04e0-f0ca-4672-90a0-f74b8fcb6eda?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/0991e2b2-63d1-4666-b974-5e782b917b45?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/ed33857e-0636-40b3-85d2-500954040aa4?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/411c1904-a2c4-4204-8e75-15c1357177fc?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/49ca10d6-62c4-4b75-8a61-362cfbe5bf33?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/79f6b7ad-2025-47c2-b109-5132bb25fa3b?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/b4362835-c4aa-4182-acbd-7280faba5557?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/a8f9a99a-7a30-4f54-946e-9963e6037ce3?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/f7389442-6871-468e-9c75-f65b211582f9?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/54482e39-0787-4a14-8758-7bf4c09c2b99?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/62468f45-707f-4e56-997a-8ed73aeff900?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/6aa88e71-f8d7-4e0a-ad82-58ecfece7277?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/6abf6b5f-aaf8-4ac0-824c-703464c058da?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/0c6438c4-0e64-49a5-91c5-a5edcbe321f3?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/7cb95337-ad7e-49bc-9c9b-c344c57bcecb?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/f09aae23-4ecc-46ca-94a0-c3ad545bcbde?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/b5b916b8-5efa-48c1-9a81-ff2bb4ef33ba?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/a5663d37-eac1-4728-8b62-2237cff2d47e?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/794ce93f-198b-425e-ba9b-f38b73e1ab0c?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+<iframe loading="lazy" src="https://lumalabs.ai/embed/bd7cdddc-a157-4c38-892b-02d8ab5cc39b?mode=video&background=%23000000&color=%23FFFFFF&showTitle=false&loadBg=true&logoPosition=top-left&infoPosition=bottom-right&cinematicVideo=false&showMenu=true"></iframe>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    &copy; 2025 Oracle Quantum. Powered by Oracle. – Todos los derechos reservados.
+  </footer>
+
+  <!-- SCRIPT EFECTO BRILLO Y POP -->
+  <script>
+    const iframes = document.querySelectorAll('.iframe-grid iframe');
+    iframes.forEach((iframe, i) => { iframe.style.animationDelay = `${i * 0.1}s`; });
+
+    const header = document.getElementById('cabecera');
+    const footer = document.getElementById('footer');
+
+    function throttle(fn, wait){
+      let last = 0, rafId = null, pendingArgs = null;
+      return function(...args){
+        const now = performance.now();
+        pendingArgs = args;
+        if (now - last >= wait) {
+          last = now;
+          fn.apply(this, pendingArgs);
+          pendingArgs = null;
+        } else if (!rafId) {
+          rafId = requestAnimationFrame(() => {
+            rafId = null; last = performance.now();
+            if (pendingArgs) { fn.apply(this, pendingArgs); pendingArgs = null; }
+          });
+        }
+      };
+    }
+
+    function updateLight(el, clientX, clientY){
+      const rect = el.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const y = Math.max(0, Math.min(clientY - rect.top, rect.height));
+      el.style.setProperty('--mx', x + 'px');
+      el.style.setProperty('--my', y + 'px');
+      el.classList.toggle('edge-left', x < rect.width / 2);
+      el.classList.toggle('edge-right', x >= rect.width / 2);
+    }
+
+    function bindReactiveLight(el) {
+      function onMove(ev) {
+        el.classList.add('is-hot');
+        const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+        const clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+        updateLight(el, clientX, clientY);
+      }
+      const throttledMove = throttle(onMove, 16);
+      el.addEventListener('pointerenter', () => el.classList.add('is-hot'));
+      el.addEventListener('pointermove', throttledMove);
+      el.addEventListener('pointerleave', () => el.classList.remove('is-hot', 'edge-left', 'edge-right'));
+      el.addEventListener('touchstart', throttledMove, { passive: true });
+      el.addEventListener('touchmove', throttledMove, { passive: true });
+      el.addEventListener('touchend', () => el.classList.remove('is-hot', 'edge-left', 'edge-right'));
+    }
+
+    bindReactiveLight(header);
+    bindReactiveLight(footer);
+  </script>
 </body>
 </html>
